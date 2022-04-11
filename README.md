@@ -72,3 +72,24 @@ It is possible to configure some things after the fact.
 Supported config options:
 
 * headerHTML
+
+## Securing your API endpoints
+
+For securing your API, so that only authenticated users can manage projects, add
+the following lines to `/etc/nginx/default.conf`:
+```
+    location /api {
+        client_max_body_size 100M;
+        proxy_pass http://python_backend;
+        auth_basic "restricted";
+        auth_basic_user_file /app/docat/.htpasswd; 
+    }
+```
+
+Then, copy your file you created with `htpasswd` and users to
+/app/docat/.htpasswd: 
+
+```
+docker cp /path/to/local/.htpasswd /app/docat/.htpasswd
+```
+For more information, see [the Nginx documentation](https://docs.nginx.com/nginx/admin-guide/security-controls/configuring-http-basic-authentication/)

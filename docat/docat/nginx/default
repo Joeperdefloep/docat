@@ -22,6 +22,8 @@ server {
     location /api {
         client_max_body_size 100M;
         proxy_pass http://python_backend;
+        auth_basic "restricted";
+        auth_basic_user_file /app/docat/.htpasswd; 
     }
 
     location / {
